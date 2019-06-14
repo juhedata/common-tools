@@ -1,5 +1,9 @@
 ## 常规校验和生成集合
+```
+//composer安装
 
+composer require juhedata/common-tools
+```
 #### 常规校验
 ```
 Verify::isWeChat($userAgent);//校验是否是微信内打开

@@ -1,7 +1,14 @@
 {
     "name": "juhedata/common-tools",
-    "description": "常规校验和生成",
-    "require": {},
+    "description": "common function and verify function for php",
+    "keywords": ["common", "verify"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "feixia",
+            "email": "zhangxw@think-land.com"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "ComTools\\": "src/Tools/"
