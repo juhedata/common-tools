@@ -106,6 +106,24 @@ class Verify
     }
 
     /**
+     * 用户名校验，（字符串数字开头，可包含._）
+     *
+     * @param $val
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    public static function isUserName($val,$min = 5,$max = 19)
+    {
+        $preg = '/^[a-z\b]{1}([a-z\b._]+){'.$min.','.$max.'}$/i';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * 校验手机几号规则
      *
      * @param $mobile
