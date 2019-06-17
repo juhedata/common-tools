@@ -105,23 +105,6 @@ class Verify
         return false;
     }
 
-    /**
-     * 用户名校验，（字符串数字开头，可包含._）
-     *
-     * @param $val
-     * @param int $min
-     * @param int $max
-     * @return bool
-     */
-    public static function isUserName($val,$min = 5,$max = 19)
-    {
-        $preg = '/^[a-z\b]{1}([a-z\b._]+){'.$min.','.$max.'}$/i';
-        if (preg_match($preg, $val)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     /**
      * 校验手机几号规则
@@ -164,9 +147,6 @@ class Verify
             return false;
         }
     }
-
-
-
 
     /**
      * 身份证号码简单校验
@@ -293,7 +273,7 @@ class Verify
      */
     public static function isMoney($money, $limit = 2)
     {
-        if (preg_match('/^[0-9]{1,6}(.[0-9]{1,' . $limit . '})?$/', $money)) {
+        if (preg_match('/^[0-9]{1,10}(.[0-9]{1,' . $limit . '})?$/', $money)) {
             return true;
         }
         return false;
@@ -340,6 +320,41 @@ class Verify
     {
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))\s((([01]\d)|(2[0-3])):[0-5]\d:[0-5]\d)$#';
         if(preg_match($pattern,$date)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 校验订单号规则：字母开头(1,12)+数字或纯数字
+     *
+     * @param $orderNo
+     * @return bool
+     */
+    public static function isOrderNo($orderNo)
+    {
+        $preg = '/^([A-Z]{1,12})?\d{10,64}$/';
+        if(preg_match($preg,$orderNo)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * 用户名校验，（字符串数字开头，可包含._）
+     *
+     * @param $val
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+
+    public static function isUserName($val,$min = 4,$max = 19)
+    {
+        $preg = '/[a-z0-9]{1}([a-z0-9]|[._]){'.$min.','.$max.'}$/i';
+        if (preg_match($preg, $val)) {
             return true;
         } else {
             return false;
