@@ -152,17 +152,20 @@ class Verify
      * 校验数字
      *
      * @param $val
+     * @param $min
      * @param $num
      * @return bool
      */
-    public static function isInt($val, $num = 6)
+    public static function isInt($val, $min = 1,$num = 6)
     {
-        if (preg_match("/^\d{{$num}}$/", $val)) {
+        if (preg_match("/^\d{{$min},{$num}}$/", $val)) {
             return true;
         } else {
             return false;
         }
     }
+
+
 
 
     /**
