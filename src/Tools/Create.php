@@ -36,7 +36,7 @@ class Create
     }
 
     /**
-     * 生成睡觉字符串
+     * 生成随机字符串
      *
      * @param int $length
      * @param bool $normal
@@ -83,8 +83,7 @@ class Create
     }
 
     /**
-     * 将出入字符串短小话，例如生成短链接等等
-     *
+     * 将输入字符串短小化，例如生成短链接等等
      *
      * @param $input
      * @param $len
@@ -160,6 +159,7 @@ class Create
 
     /**
      * 将一个字符的中间1/3替换成星号
+     *
      * @param string $string
      * @return mixed
      */
