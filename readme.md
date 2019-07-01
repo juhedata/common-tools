@@ -29,8 +29,8 @@ Verify::isChinese($val);//字母数字中文校验
 
 #### 常用生成
 ```
-    //格式化生成,format=YmdHis,randNum:补充随机数
-   Create::createOrderNoFormat($prefix, $format, $randNum) ;
+    //格式化生成,format=YmdHis,randNum:补充随机数 $sec:是否使用毫秒默认true
+   Create::createOrderNoFormat($prefix, $format, $randNum,$sec) ;
     
    Create::randString($length, $normal) ;//生成随机字符串
 
