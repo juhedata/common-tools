@@ -14,16 +14,22 @@ class Create
     /**
      * 格式化生成字符串：订单号，或流水号
      *
-     * @param string $prefix
-     * @param string $format
-     * @param int $randNum
+     * @param string $prefix 前缀
+     * @param string $format 格式
+     * @param bool $sec 单号是否添加毫秒
+     * @param int $randNum 随机数长度
      * @return string
      */
-    public static function createOrderNoFormat($prefix = '', $format = 'YmdHis', $randNum = 6)
+    public static function createOrderNoFormat($prefix = '', $format = 'YmdHis', $randNum = 6, $sec= true)
     {
-        list($uSec, $sec) = explode(" ", microtime());
-        $uSec = sprintf("%06d", $uSec * 1000000);
-        $date = date($format, $sec) . $uSec;
+        if($sec) {
+            list($uSec, $sec) = explode(" ", microtime());
+            $uSec = sprintf("%06d", $uSec * 1000000);
+            $date = date($format, $sec) . $uSec;
+        } else {
+            $date = date($format) ;
+        }
+
         if ($randNum > 0) {
             $rand_start = 1;
             $rand_end = pow(10, ($randNum)) - 1;
