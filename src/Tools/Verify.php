@@ -360,4 +360,16 @@ class Verify
             return false;
         }
     }
+
+    /**
+     * 校验域名
+     *
+     * @param $domain
+     * @return bool
+     */
+    public static function isDomain($domain)
+    {
+        $str = "/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/";
+        return preg_match($str, $domain);
+    }
 }
