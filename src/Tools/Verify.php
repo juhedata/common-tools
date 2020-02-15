@@ -369,7 +369,6 @@ class Verify
      */
     public static function isDomain($domain)
     {
-        $str = "/^http(s?):\/\/(?:[A-za-z0-9-]+\.)+[A-za-z]{2,4}(?:[\/\?#][\/=\?%\-&~`@[\]\':+!\.#\w]*)?$/";
-        return preg_match($str, $domain);
+        return filter_var($domain,FILTER_VALIDATE_DOMAIN);
     }
 }
