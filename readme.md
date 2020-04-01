@@ -42,6 +42,10 @@ Verify::isChinese($val);//字母数字中文校验
    
    Create::halfReplace($string, $symbol ) ;//将字符串后半部分替换成指定字符
    
-   Create::replaceWithStar($str);//将字符串中间一段替换成*
+   Create::replaceWithStar($str, $symbol);//将一个字符的中间1/3替换成指定字符
+
+   Create::moneyToString($money);//将数值金额转换为中文大写金额
+
+   Create::shortTime($string);//当年时间短日期
 
 ```

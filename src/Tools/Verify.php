@@ -283,9 +283,11 @@ class Verify
      * 校验中英文名称
      *
      * @param $name
+     * @param int $min
+     * @param int $max
      * @return bool
      */
-    public static function isChinese($name)
+    public static function isChinese($name,$min =2,$max = 40)
     {
         if (preg_match('/^[0-9A-Za-z\x{4e00}-\x{9fa5}]{2,40}$/u', $name)) {
             return true;
