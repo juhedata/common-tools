@@ -267,4 +267,22 @@ class Create
             return $string;
         }
     }
+
+    /**
+     * @param  $start
+     * @param $end
+     * @return float|int
+     */
+    public static function getDiffDays($start,$end)
+    {
+        $second1 = strtotime($start);
+        $second2 = strtotime($end);
+
+        if ($second1 < $second2) {
+            $tmp = $second2;
+            $second2 = $second1;
+            $second1 = $tmp;
+        }
+        return ($second1 - $second2) / 86400;
+    }
 }
