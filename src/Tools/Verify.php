@@ -28,9 +28,10 @@ class Verify
      * 校验是否是移动设备
      *
      * @param $server
+     * @param boolean $checkVia [是否判断http_via,开启cdn的时候回添加该参数，可能会导致判断出错]
      * @return bool
      */
-    public static function isMobileServer($server)
+    public static function isMobileServer($server,$checkVia = true)
     {
         // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
         if (isset($server['HTTP_X_WAP_PROFILE'])) {
@@ -42,7 +43,7 @@ class Verify
             return true;
         }
         //如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
-        if (($wap = (isset($server['HTTP_VIA']) ? $server['HTTP_VIA'] : ''))) {
+        if ($checkVia && ($wap = (isset($server['HTTP_VIA']) ? $server['HTTP_VIA'] : ''))) {
             //找不到为flase,否则为true
             if (stristr($wap, 'wap')) {
                 return true;
