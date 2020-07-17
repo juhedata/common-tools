@@ -301,12 +301,16 @@ class Verify
      * 日期时间校验从2000年开始：格式2010-01-01
      *
      * @param $date
+     * @param bool $checkNow 是否校验日期超过当前日期
      * @return bool
      */
-    public static function isDate($date)
+    public static function isDate($date,$checkNow = false)
     {
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))$#';
         if(preg_match($pattern,$date)) {
+            if($checkNow && $date > date('Y-m-d')) {
+                return false;
+            }
             return true;
         } else {
             return false;
@@ -317,12 +321,16 @@ class Verify
      * 日期时间校验从2000年开始：格式2010-01-01 11：11：11
      *
      * @param $date
+     * @param bool $checkNow 是否校验日期超过当前日期
      * @return bool
      */
-    public static function isDateTime($date)
+    public static function isDateTime($date,$checkNow=false)
     {
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))\s((([01]\d)|(2[0-3])):[0-5]\d:[0-5]\d)$#';
         if(preg_match($pattern,$date)) {
+            if($checkNow && $date > date('Y-m-d H:i:s')) {
+                return false;
+            }
             return true;
         } else {
             return false;
