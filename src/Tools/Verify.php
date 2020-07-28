@@ -6,6 +6,7 @@
  * Time: 17:42
  * Project Name: common-tools
  */
+
 namespace ComTools;
 
 class Verify
@@ -31,7 +32,7 @@ class Verify
      * @param boolean $checkVia [是否判断http_via,开启cdn的时候回添加该参数，可能会导致判断出错]
      * @return bool
      */
-    public static function isMobileServer($server,$checkVia = true)
+    public static function isMobileServer($server, $checkVia = true)
     {
         // 如果有HTTP_X_WAP_PROFILE则一定是移动设备
         if (isset($server['HTTP_X_WAP_PROFILE'])) {
@@ -125,13 +126,14 @@ class Verify
 
     public static function isMobilePhones($mobiles)
     {
-        $mobilePreg ='/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}(#+1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}#{0,}){0,}$/';
+        $mobilePreg = '/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}(#+1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}#{0,}){0,}$/';
         if (preg_match($mobilePreg, $mobiles)) {
             return true;
         } else {
             return false;
         }
     }
+
     /**
      * 校验数字
      *
@@ -140,7 +142,7 @@ class Verify
      * @param $num
      * @return bool
      */
-    public static function isInt($val, $min = 1,$num = 6)
+    public static function isInt($val, $min = 1, $num = 6)
     {
         if (preg_match("/^\d{{$min},{$num}}$/", $val)) {
             return true;
@@ -288,9 +290,9 @@ class Verify
      * @param int $max
      * @return bool
      */
-    public static function isChinese($name,$min =2,$max = 40)
+    public static function isChinese($name, $max = 40, $min = 2)
     {
-        if (preg_match('/^[0-9A-Za-z\x{4e00}-\x{9fa5}]{2,40}$/u', $name)) {
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）\.\-]{{$min},{$max}}$/u", $name)) {
             return true;
         } else {
             return false;
@@ -304,11 +306,11 @@ class Verify
      * @param bool $checkNow 是否校验日期超过当前日期
      * @return bool
      */
-    public static function isDate($date,$checkNow = false)
+    public static function isDate($date, $checkNow = false)
     {
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))$#';
-        if(preg_match($pattern,$date)) {
-            if($checkNow && $date > date('Y-m-d')) {
+        if (preg_match($pattern, $date)) {
+            if ($checkNow && $date > date('Y-m-d')) {
                 return false;
             }
             return true;
@@ -324,11 +326,11 @@ class Verify
      * @param bool $checkNow 是否校验日期超过当前日期
      * @return bool
      */
-    public static function isDateTime($date,$checkNow=false)
+    public static function isDateTime($date, $checkNow = false)
     {
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))\s((([01]\d)|(2[0-3])):[0-5]\d:[0-5]\d)$#';
-        if(preg_match($pattern,$date)) {
-            if($checkNow && $date > date('Y-m-d H:i:s')) {
+        if (preg_match($pattern, $date)) {
+            if ($checkNow && $date > date('Y-m-d H:i:s')) {
                 return false;
             }
             return true;
@@ -346,7 +348,7 @@ class Verify
     public static function isOrderNo($orderNo)
     {
         $preg = '/^([A-Z]{1,12})?\d{10,64}$/';
-        if(preg_match($preg,$orderNo)) {
+        if (preg_match($preg, $orderNo)) {
             return true;
         }
 
@@ -362,9 +364,9 @@ class Verify
      * @return bool
      */
 
-    public static function isUserName($val,$min = 4,$max = 19)
+    public static function isUserName($val, $min = 4, $max = 19)
     {
-        $preg = '/[a-z0-9]{1}([a-z0-9]|[._]){'.$min.','.$max.'}$/i';
+        $preg = '/[a-z0-9]{1}([a-z0-9]|[._]){' . $min . ',' . $max . '}$/i';
         if (preg_match($preg, $val)) {
             return true;
         } else {
@@ -380,6 +382,38 @@ class Verify
      */
     public static function isDomain($domain)
     {
-        return filter_var($domain,FILTER_VALIDATE_DOMAIN);
+        return filter_var($domain, FILTER_VALIDATE_DOMAIN);
+    }
+
+    /**
+     * 校验URL
+     *
+     * @param $val
+     * @return bool
+     */
+    public static function isUrl($val)
+    {
+        $preg = '/^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?\'\\+&%$#=~_-]+))*$/';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 是否是ip地址
+     *
+     * @param $val
+     * @return bool
+     */
+    public static function isIp($val)
+    {
+        $preg = '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
