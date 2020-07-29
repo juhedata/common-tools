@@ -292,7 +292,8 @@ class Verify
      */
     public static function isChinese($name, $max = 40, $min = 2)
     {
-        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）\.\-]{{$min},{$max}}$/u", $name)) {
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）\.\-_:#\/。、\s\?]{{$min},{$max}}$/u",
+            $name)) {
             return true;
         } else {
             return false;
