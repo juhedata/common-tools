@@ -424,7 +424,7 @@ class Verify
      * @param $val
      * @return bool
      */
-    public static function hardPhone($val)
+    public static function isHardPhone($val)
     {
         $preg = '/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/';
         if (preg_match($preg, $val)) {
@@ -440,7 +440,7 @@ class Verify
      * @param $val
      * @return bool
      */
-    public static function bankCardNo($val)
+    public static function isBankCardNo($val)
     {
         $preg = '/^[1-9]{1}\d{15,20}$/';
         if (preg_match($preg, $val)) {
