@@ -417,4 +417,20 @@ class Verify
             return false;
         }
     }
+
+    /**
+     * 固话号码
+     *
+     * @param $val
+     * @return bool
+     */
+    public static function hardPhone($val)
+    {
+        $preg = '/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
