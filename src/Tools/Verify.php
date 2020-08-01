@@ -433,4 +433,20 @@ class Verify
             return false;
         }
     }
+
+    /**
+     * 银行卡号校验:16~21为
+     *
+     * @param $val
+     * @return bool
+     */
+    public static function bankCardNo($val)
+    {
+        $preg = '/^[1-9]{1}\d{15,20}$/';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
