@@ -116,6 +116,10 @@ class Verify
      */
     public static function isMobilePhone($mobile)
     {
+        if (!is_string($mobile) && !is_numeric($mobile)) {
+            return false;
+        }
+
         $mobilePreg = '/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}$/';
         if (preg_match($mobilePreg, $mobile)) {
             return true;
@@ -126,6 +130,10 @@ class Verify
 
     public static function isMobilePhones($mobiles)
     {
+        if (!is_string($mobiles) && !is_numeric($mobiles)) {
+            return false;
+        }
+
         $mobilePreg = '/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}(#+1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[0135678]{1}|8\d{1}|9[189]{1})\d{8}#{0,}){0,}$/';
         if (preg_match($mobilePreg, $mobiles)) {
             return true;
@@ -144,6 +152,10 @@ class Verify
      */
     public static function isInt($val, $min = 1, $num = 6)
     {
+        if (!is_string($val) && !is_numeric($val)) {
+            return false;
+        }
+
         if (preg_match("/^\d{{$min},{$num}}$/", $val)) {
             return true;
         } else {
@@ -159,6 +171,10 @@ class Verify
      */
     public static function isIdCard($idCard)
     {
+        if (!is_string($idCard) && !is_numeric($idCard)) {
+            return false;
+        }
+
         $id = strtoupper($idCard);
         $regx = "/(^\d{15}$)|(^\d{17}([0-9]|X)$)/";
 
@@ -216,11 +232,15 @@ class Verify
      * @param $email
      * @return bool
      */
-    public static function isEmail($email)
+    public static function isEmail($val)
     {
+        if (!is_string($val)) {
+            $val = json_encode($val, JSON_UNESCAPED_UNICODE);
+        }
+
         $patrn = '/^[\da-z]+([-._]?[\da-z]+)*@[\da-z]+([-._]?[\da-z]+)*(\.[a-zA-Z]{2,3})+$/i';
-        if (preg_match($patrn, $email) && strlen($email) < 64) {
-            if (self::filterTempMail($email)) {
+        if (preg_match($patrn, $val) && strlen($val) < 64) {
+            if (self::filterTempMail($val)) {
                 return true;
             } else {
                 return false;
@@ -276,7 +296,11 @@ class Verify
      */
     public static function isMoney($money, $limit = 2)
     {
-        if (preg_match('/^[0-9]{1,10}(.[0-9]{1,' . $limit . '})?$/', $money)) {
+        if (!is_string($money) && !is_numeric($money)) {
+            return false;
+        }
+
+        if (preg_match('/^(-)?[0-9]{1,10}(.[0-9]{1,' . $limit . '})?$/', $money)) {
             return true;
         }
         return false;
@@ -292,6 +316,10 @@ class Verify
      */
     public static function isChinese($name, $max = 40, $min = 2)
     {
+        if (!is_string($name)) {
+            return false;
+        }
+
         if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）\.\-_:#\/。、,，\s\?]{{$min},{$max}}$/u",
             $name)) {
             return true;
@@ -309,6 +337,10 @@ class Verify
      */
     public static function isDate($date, $checkNow = false)
     {
+        if (!is_string($date)) {
+            return false;
+        }
+
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))$#';
         if (preg_match($pattern, $date)) {
             if ($checkNow && $date > date('Y-m-d')) {
@@ -329,6 +361,10 @@ class Verify
      */
     public static function isDateTime($date, $checkNow = false)
     {
+        if (!is_string($date)) {
+            return false;
+        }
+
         $pattern = '#^(20|19)\d{2}-((0[1-9])|(1[0-2]))-(([012][0-9])|(3[01]))\s((([01]\d)|(2[0-3])):[0-5]\d:[0-5]\d)$#';
         if (preg_match($pattern, $date)) {
             if ($checkNow && $date > date('Y-m-d H:i:s')) {
@@ -348,6 +384,10 @@ class Verify
      */
     public static function isOrderNo($orderNo)
     {
+        if (!is_string($orderNo) && !is_numeric($orderNo)) {
+            return false;
+        }
+
         $preg = '/^([A-Z]{1,12})?\d{10,64}$/';
         if (preg_match($preg, $orderNo)) {
             return true;
@@ -367,6 +407,10 @@ class Verify
 
     public static function isUserName($val, $min = 4, $max = 19)
     {
+        if (!is_string($val)) {
+            return false;
+        }
+
         $preg = '/[a-z0-9]{1}([a-z0-9]|[._]){' . $min . ',' . $max . '}$/i';
         if (preg_match($preg, $val)) {
             return true;
@@ -383,6 +427,10 @@ class Verify
      */
     public static function isDomain($domain)
     {
+        if (!is_string($domain)) {
+            return false;
+        }
+
         return filter_var($domain, FILTER_VALIDATE_DOMAIN);
     }
 
@@ -394,6 +442,10 @@ class Verify
      */
     public static function isUrl($val)
     {
+        if (!is_string($val)) {
+            return false;
+        }
+
         $preg = '/^(https?|ftp):\/\/([a-zA-Z0-9.-]+(:[a-zA-Z0-9.&%$-]+)*@)*((25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9][0-9]?)(\.(25[0-5]|2[0-4][0-9]|1[0-9]{2}|[1-9]?[0-9])){3}|([a-zA-Z0-9-]+\.)*[a-zA-Z0-9-]+\.(com|edu|gov|int|mil|net|org|biz|arpa|info|name|pro|aero|coop|museum|[a-zA-Z]{2}))(:[0-9]+)*(\/($|[a-zA-Z0-9.,?\'\\+&%$#=~_-]+))*$/';
         if (preg_match($preg, $val)) {
             return true;
@@ -410,6 +462,10 @@ class Verify
      */
     public static function isIp($val)
     {
+        if (!is_string($val)) {
+            return false;
+        }
+
         $preg = '/^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/';
         if (preg_match($preg, $val)) {
             return true;
@@ -426,6 +482,10 @@ class Verify
      */
     public static function isHardPhone($val)
     {
+        if (!is_string($val) && !is_numeric($val)) {
+            return false;
+        }
+
         $preg = '/^(\(\d{3,4}\)|\d{3,4}-|\s)?\d{7,14}$/';
         if (preg_match($preg, $val)) {
             return true;
@@ -442,6 +502,10 @@ class Verify
      */
     public static function isBankCardNo($val)
     {
+        if (!is_string($val) && !is_numeric($val)) {
+            return false;
+        }
+
         $preg = '/^[1-9]{1}\d{15,20}$/';
         if (preg_match($preg, $val)) {
             return true;
