@@ -497,16 +497,17 @@ class Verify
     /**
      * 银行卡号校验:16~21为
      *
+     * @param $min
      * @param $val
      * @return bool
      */
-    public static function isBankCardNo($val)
+    public static function isBankCardNo($val,$min = 15)
     {
         if (!is_string($val) && !is_numeric($val)) {
             return false;
         }
 
-        $preg = '/^[1-9]{1}\d{9,20}$/';
+        $preg = '/^[1-9]{1}\d{'.$min.',20}$/';
         if (preg_match($preg, $val)) {
             return true;
         } else {
