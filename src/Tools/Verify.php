@@ -506,7 +506,7 @@ class Verify
             return false;
         }
 
-        $preg = '/^[1-9]{1}\d{15,20}$/';
+        $preg = '/^[1-9]{1}\d{9,20}$/';
         if (preg_match($preg, $val)) {
             return true;
         } else {
