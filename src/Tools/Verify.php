@@ -320,7 +320,7 @@ class Verify
             return false;
         }
 
-        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）\.\-_:#\/。、,，\s\?]{{$min},{$max}}$/u",
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\/_\(\)\[\]（）\.:,!。、，：【】！？\s\?#]{{$min},{$max}}$/u",
             $name)) {
             return true;
         } else {
@@ -501,13 +501,35 @@ class Verify
      * @param $val
      * @return bool
      */
-    public static function isBankCardNo($val,$min = 15)
+    public static function isBankCardNo($val, $min = 15)
     {
         if (!is_string($val) && !is_numeric($val)) {
             return false;
         }
 
-        $preg = '/^[1-9]{1}\d{'.$min.',20}$/';
+        $preg = '/^[1-9]{1}\d{' . $min . ',20}$/';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+
+    /**
+     * 校验是否包韩指定的字符
+     *
+     * @param $char
+     * @param $val
+     * @return bool
+     */
+    function hasSpecialChar($char, $val)
+    {
+        if (!$char || !$val || (!is_string($val) && !is_numeric($val)) || (!is_string($char) && !is_numeric($char))) {
+            return false;
+        }
+        $char = str_replace('/', '\/', $char);
+        $preg = "/[$char]+/";
         if (preg_match($preg, $val)) {
             return true;
         } else {
