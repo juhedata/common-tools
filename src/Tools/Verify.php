@@ -526,7 +526,7 @@ class Verify
      * @param int $min
      * @return bool
      */
-    function noCharInLength($char, $val, $max = 20, $min = 2)
+    public static function noCharInLength($char, $val, $max = 20, $min = 2)
     {
         if (!$char || !$val || (!is_string($val) && !is_numeric($val)) || (!is_string($char) && !is_numeric($char))) {
             return false;
