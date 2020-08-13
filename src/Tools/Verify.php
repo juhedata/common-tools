@@ -517,7 +517,7 @@ class Verify
 
 
     /**
-     * 校验是否包韩指定的字符:且不能超过限制长度
+     * 不包含指定字符，且在限定长度内
      *
      *
      * @param $char
@@ -526,14 +526,14 @@ class Verify
      * @param int $min
      * @return bool
      */
-    function hasSpecialChar($char, $val, $max = 20, $min = 2)
+    function noCharInLength($char, $val, $max = 20, $min = 2)
     {
         if (!$char || !$val || (!is_string($val) && !is_numeric($val)) || (!is_string($char) && !is_numeric($char))) {
             return false;
         }
         $char = str_replace('/', '\/', $char);
         $preg = "/[$char]+/";
-        if (preg_match($preg, $val) && mb_strlen($val) >= $min && mb_strlen($val) <= $max) {
+        if (!preg_match($preg, $val) && mb_strlen($val) >= $min && mb_strlen($val) <= $max) {
             return true;
         } else {
             return false;
