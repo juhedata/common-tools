@@ -497,17 +497,24 @@ class Verify
     /**
      * 银行卡号校验:16~21为
      *
-     * @param $min
+     *
      * @param $val
+     * @param bool $isCard ：是否是个人卡，
+     * @param int $min
      * @return bool
      */
-    public static function isBankCardNo($val, $min = 15)
+    public static function isBankCardNo($val, $isCard = true, $min = 15)
     {
         if (!is_string($val) && !is_numeric($val)) {
             return false;
         }
 
-        $preg = '/^[1-9]{1}\d{' . $min . ',20}$/';
+        //银行行卡
+        if ($isCard) {
+            $preg = '/^[1-9]{1}\d{' . $min . ',20}$/';
+        } else { //企业账户
+            $preg = '/^\d{' . $min . ',20}$/';
+        }
         if (preg_match($preg, $val)) {
             return true;
         } else {
