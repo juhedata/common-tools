@@ -181,7 +181,9 @@ class Verify
         if (!preg_match($regx, $id)) {
             return false;
         }
-
+        if (15 != strlen($id) && 18 != strlen($id)) {
+            return false;
+        }
         //身份证号码校验
         if (15 == strlen($id)) //检查15位
         {
