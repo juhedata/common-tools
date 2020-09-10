@@ -112,15 +112,21 @@ class Verify
      * 校验手机几号规则
      *
      * @param $mobile
+     * @param bool $simple 是否进行简单校验，仅校验号码段
      * @return bool
      */
-    public static function isMobilePhone($mobile)
+    public static function isMobilePhone($mobile, $simple = false)
     {
         if (!is_string($mobile) && !is_numeric($mobile)) {
             return false;
         }
+        if ($simple) {
+            $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}$/';
+        } else {
+            //仅校验大段位
+            $mobilePreg = '/^1[3-9]{1}\d{9}$/';
+        }
 
-        $mobilePreg = '/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[01235678]{1}|8\d{1}|9[189]{1})\d{8}$/';
         if (preg_match($mobilePreg, $mobile)) {
             return true;
         } else {
@@ -134,7 +140,7 @@ class Verify
             return false;
         }
 
-        $mobilePreg = '/^1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[01235678]{1}|8\d{1}|9[189]{1})\d{8}(#+1(3\d{1}|4[135789]{1}|5\d{1}|6[56]{1}|7[01235678]{1}|8\d{1}|9[189]{1})\d{8}#{0,}){0,}$/';
+        $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}(#+1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}#{0,}){0,}$/';
         if (preg_match($mobilePreg, $mobiles)) {
             return true;
         } else {
@@ -413,7 +419,7 @@ class Verify
             return false;
         }
 
-        $preg = '/[a-z0-9]{1}([a-z0-9]|[._]){' . $min . ',' . $max . '}$/i';
+        $preg = '/[a-z0-9]{1}([a-z0-9._@]){' . $min . ',' . $max . '}$/i';
         if (preg_match($preg, $val)) {
             return true;
         } else {
@@ -515,7 +521,7 @@ class Verify
         if ($isCard) {
             $preg = '/^[1-9]{1}\d{' . $min . ',20}$/';
         } else { //企业账户
-            $preg = '/^\d{' . $min . ',20}$/';
+            $preg = '/^\d{' . $min . ',32}$/';
         }
         if (preg_match($preg, $val)) {
             return true;
@@ -543,6 +549,92 @@ class Verify
         $char = str_replace('/', '\/', $char);
         $preg = "/[$char]+/";
         if (!preg_match($preg, $val) && mb_strlen($val) >= $min && mb_strlen($val) <= $max) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 中文姓名
+     *
+     * @param $name
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    public static function isChineseName($name, $max = 40, $min = 2)
+    {
+        if (!is_string($name)) {
+            return false;
+        }
+
+        if (preg_match("/^[\x{4e00}-\x{9fa5}·#]{{$min},{$max}}$/u",
+            $name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * 中文公司名称
+     *
+     * @param $name
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    public static function isChineseCompany($name, $max = 40, $min = 2)
+    {
+        if (!is_string($name)) {
+            return false;
+        }
+
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）#\s]{{$min},{$max}}$/u",
+            $name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 校验中英文名称
+     *
+     * @param $name
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    public static function isAddress($name, $max = 40, $min = 2)
+    {
+        if (!is_string($name)) {
+            return false;
+        }
+
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\(\)\[\]（）【】\s#]{{$min},{$max}}$/u",
+            $name)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    /**
+     * 校验中英文名称
+     *
+     * @param $name
+     * @param int $min
+     * @param int $max
+     * @return bool
+     */
+    public static function isTitle($name, $max = 40, $min = 2)
+    {
+        if (!is_string($name)) {
+            return false;
+        }
+
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\/_\(\)\[\]（）:,!。、，：【】！？\s\?#]{{$min},{$max}}$/u",
+            $name)) {
             return true;
         } else {
             return false;
