@@ -10,9 +10,9 @@ Verify::isWeChat($userAgent);//校验是否是微信内打开
 
 Verify::isMobileServer($server);//校验是否是移动设备访问
 
-Verify::isMobilePhone($mobile);//校验手机号格式
+Verify::isMobilePhone($mobile,[$strict = false]);//校验手机号格式
 
-Verify::isMobilePhones($mobiles);//校验手机号格式(多手机号)
+Verify::isMobilePhones($mobiles,[$strict = false]);//校验手机号格式(多手机号)
 
 Verify::isInt($val,$len);//校验整数
 

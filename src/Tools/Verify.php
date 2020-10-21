@@ -112,15 +112,15 @@ class Verify
      * 校验手机几号规则
      *
      * @param $mobile
-     * @param bool $simple 是否进行简单校验，仅校验号码段
+     * @param bool $strict 是否进行严格校验，仅校验号码段
      * @return bool
      */
-    public static function isMobilePhone($mobile, $simple = false)
+    public static function isMobilePhone($mobile, $strict = false)
     {
         if (!is_string($mobile) && !is_numeric($mobile)) {
             return false;
         }
-        if ($simple) {
+        if ($strict) {
             $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}$/';
         } else {
             //仅校验大段位
@@ -134,13 +134,25 @@ class Verify
         }
     }
 
-    public static function isMobilePhones($mobiles)
+    /**
+     * 多手机号码校验，需要将手机号通过#号进行拼接
+     *
+     * @param $mobiles
+     * @param bool $strict 是否进行严格校验，仅校验号码段
+     * @return bool
+     */
+    public static function isMobilePhones($mobiles, $strict = false)
     {
         if (!is_string($mobiles) && !is_numeric($mobiles)) {
             return false;
         }
 
-        $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}(#+1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}#{0,}){0,}$/';
+        if ($strict) {
+            $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}(#+1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}#{0,}){0,}$/';
+        } else {
+            //仅校验大段位
+            $mobilePreg = '/^1[3-9]{1}\d{9}(#+[3-9]{1}\d{9}#{0,}){0,}$/';
+        }
         if (preg_match($mobilePreg, $mobiles)) {
             return true;
         } else {
@@ -598,6 +610,7 @@ class Verify
             return false;
         }
     }
+
     /**
      * 校验中英文名称
      *
@@ -619,6 +632,7 @@ class Verify
             return false;
         }
     }
+
     /**
      * 校验中英文名称
      *
