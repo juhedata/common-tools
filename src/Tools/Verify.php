@@ -581,8 +581,7 @@ class Verify
             return false;
         }
 
-        if (preg_match("/^[\x{4e00}-\x{9fa5}·#]{{$min},{$max}}$/u",
-            $name)) {
+        if (preg_match("/^[0-9A-Za-z\x{4e00}-\x{9fa5}·#]{{$min},{$max}}$/u", $name)) {
             return true;
         } else {
             return false;
@@ -603,8 +602,7 @@ class Verify
             return false;
         }
 
-        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）#\s]{{$min},{$max}}$/u",
-            $name)) {
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）#\s]{{$min},{$max}}$/u", $name)) {
             return true;
         } else {
             return false;
@@ -625,8 +623,7 @@ class Verify
             return false;
         }
 
-        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\(\)\[\]（）【】\s#]{{$min},{$max}}$/u",
-            $name)) {
+        if (preg_match("/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\(\)\[\]（）【】\s#]{{$min},{$max}}$/u", $name)) {
             return true;
         } else {
             return false;
