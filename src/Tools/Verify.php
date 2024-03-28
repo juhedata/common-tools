@@ -229,8 +229,9 @@ class Verify
                 $arr_int = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
                 $arr_ch = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
                 $sign = 0;
+                $ids = str_split($id);
                 for ($i = 0; $i < 17; $i++) {
-                    $b = (int)$id{$i};
+                    $b = (int)$id[$i];
                     $w = $arr_int[$i];
                     $sign += $b * $w;
                 }

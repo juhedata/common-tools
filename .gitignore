@@ -15,3 +15,5 @@
 
 #临时文件夹
 /vendor/
+server.php
+composer.lock
