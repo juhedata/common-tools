@@ -634,6 +634,7 @@ class Verify
     /**
      * 校验中英文名称
      *
+     *
      * @param $name
      * @param int $min
      * @param int $max

@@ -16,7 +16,7 @@ Verify::isMobilePhones($mobiles,[$strict = false]);//校验手机号格式(多�
 
 Verify::isInt($val,$len);//校验整数
 
-Verify::isIdCard($idCard);//校验身份证号
+Verify::isIdCard($idCard);//校验身份证号:修复校验规则
 
 Verify::isEmail($email);//校验邮箱，排除临时邮箱
 
@@ -31,17 +31,17 @@ Verify::isChinese($val);//字母数字中文校验
 ```
     //格式化生成,format=YmdHis,randNum:补充随机数 $sec:是否使用毫秒默认true
    Create::createOrderNoFormat($prefix, $format, $randNum,$sec) ;
-    
+
    Create::randString($length, $normal) ;//生成随机字符串
 
    Create::fileToDownload($file, $fileName,$contentType) ;//文件下载
 
    Create::shortStr($input,$len) ;//生成短链
-   
+
    Create::encodingArr($array, $to_encoding, $from_encoding ) ;//数组字符集转换
-   
+
    Create::halfReplace($string, $symbol ) ;//将字符串后半部分替换成指定字符
-   
+
    Create::replaceWithStar($str, $symbol);//将一个字符的中间1/3替换成指定字符
 
    Create::moneyToString($money);//将数值金额转换为中文大写金额
