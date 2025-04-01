@@ -4,7 +4,7 @@
  * User: owner
  * Date: 2019-06-13
  * Time: 17:42
- * Project Name: common-tools
+ * Project Name: common-tools.
  */
 
 namespace ComTools;
@@ -14,22 +14,22 @@ class Verify
     /**
      * 校验微信内打开
      *
-     * @param $userAgent
      * @return bool
      */
     public static function isWeChat($userAgent)
     {
-        if (strpos($userAgent, 'MicroMessenger') !== false) {
+        if (false !== strpos($userAgent, 'MicroMessenger')) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * 校验是否是移动设备
+     * 校验是否是移动设备.
      *
-     * @param $server
-     * @param boolean $checkVia [是否判断http_via,开启cdn的时候回添加该参数，可能会导致判断出错]
+     * @param bool $checkVia [是否判断http_via,开启cdn的时候回添加该参数，可能会导致判断出错]
+     *
      * @return bool
      */
     public static function isMobileServer($server, $checkVia = true)
@@ -39,20 +39,20 @@ class Verify
             return true;
         }
 
-        //此条摘自TPM智能切换模板引擎，适合TPM开发
+        // 此条摘自TPM智能切换模板引擎，适合TPM开发
         if (($client = (isset($server['HTTP_CLIENT']) ? $server['HTTP_CLIENT'] : '')) && 'PhoneClient' == $client) {
             return true;
         }
-        //如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
+        // 如果via信息含有wap则一定是移动设备,部分服务商会屏蔽该信息
         if ($checkVia && ($wap = (isset($server['HTTP_VIA']) ? $server['HTTP_VIA'] : ''))) {
-            //找不到为flase,否则为true
+            // 找不到为flase,否则为true
             if (stristr($wap, 'wap')) {
                 return true;
             } else {
                 return false;
             }
         }
-        //判断手机发送的客户端标志,兼容性有待提高
+        // 判断手机发送的客户端标志,兼容性有待提高
         if ($agent = (isset($server['HTTP_USER_AGENT']) ? $server['HTTP_USER_AGENT'] : '')) {
             $clientkeywords = [
                 'nokia',
@@ -86,33 +86,33 @@ class Verify
                 'cldc',
                 'midp',
                 'wap',
-                'mobile'
+                'mobile',
             ];
-            //从HTTP_USER_AGENT中查找手机浏览器的关键字
-            if (preg_match("/(" . implode('|', $clientkeywords) . ")/i", strtolower($agent))) {
+            // 从HTTP_USER_AGENT中查找手机浏览器的关键字
+            if (preg_match('/('.implode('|', $clientkeywords).')/i', strtolower($agent))) {
                 return true;
             }
         }
-        //协议法，因为有可能不准确，放到最后判断
+        // 协议法，因为有可能不准确，放到最后判断
         if ($accept = (isset($server['HTTP_ACCEPT']) ? $server['HTTP_ACCEPT'] : '')) {
             // 如果只支持wml并且不支持html那一定是移动设备
             // 如果支持wml和html但是wml在html之前则是移动设备
-            if ((strpos($accept, 'vnd.wap.wml') !== false) &&
-                (strpos($accept, 'text/html') === false ||
-                    (strpos($accept, 'vnd.wap.wml') < strpos($accept, 'text/html')))
+            if ((false !== strpos($accept, 'vnd.wap.wml'))
+                && (false === strpos($accept, 'text/html')
+                    || (strpos($accept, 'vnd.wap.wml') < strpos($accept, 'text/html')))
             ) {
                 return true;
             }
         }
+
         return false;
     }
 
-
     /**
-     * 校验手机几号规则
+     * 校验手机几号规则.
      *
-     * @param $mobile
      * @param bool $strict 是否进行严格校验，仅校验号码段
+     *
      * @return bool
      */
     public static function isMobilePhone($mobile, $strict = false)
@@ -123,7 +123,7 @@ class Verify
         if ($strict) {
             $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}$/';
         } else {
-            //仅校验大段位
+            // 仅校验大段位
             $mobilePreg = '/^1[3-9]{1}\d{9}$/';
         }
 
@@ -135,10 +135,10 @@ class Verify
     }
 
     /**
-     * 多手机号码校验，需要将手机号通过#号进行拼接
+     * 多手机号码校验，需要将手机号通过#号进行拼接.
      *
-     * @param $mobiles
      * @param bool $strict 是否进行严格校验，仅校验号码段
+     *
      * @return bool
      */
     public static function isMobilePhones($mobiles, $strict = false)
@@ -150,7 +150,7 @@ class Verify
         if ($strict) {
             $mobilePreg = '/^1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}(#+1(3\d{1}|4[1356789]{1}|5\d{1}|6[2567]{1}|7[012345678]{1}|8\d{1}|9\d{1})\d{8}#{0,}){0,}$/';
         } else {
-            //仅校验大段位
+            // 仅校验大段位
             $mobilePreg = '/^1[3-9]{1}\d{9}(#+1[3-9]{1}\d{9}#{0,}){0,}$/';
         }
         if (preg_match($mobilePreg, $mobiles)) {
@@ -161,11 +161,8 @@ class Verify
     }
 
     /**
-     * 校验数字
+     * 校验数字.
      *
-     * @param $val
-     * @param $min
-     * @param $num
      * @return bool
      */
     public static function isInt($val, $min = 1, $num = 6)
@@ -182,9 +179,8 @@ class Verify
     }
 
     /**
-     * 身份证号码简单校验
+     * 身份证号码简单校验.
      *
-     * @param $idCard
      * @return bool
      */
     public static function isIdCard($idCard)
@@ -202,36 +198,34 @@ class Verify
         if (15 != strlen($id) && 18 != strlen($id)) {
             return false;
         }
-        //身份证号码校验
-        if (15 == strlen($id)) //检查15位
-        {
+        // 身份证号码校验
+        if (15 == strlen($id)) { // 检查15位
             $regx = "/^(\d{6})+(\d{2})+(\d{2})+(\d{2})+(\d{3})$/";
 
             @preg_match($regx, $id, $arr_split);
-            //检查生日日期是否正确
-            $dtm_birth = "19" . $arr_split[2] . '/' . $arr_split[3] . '/' . $arr_split[4];
+            // 检查生日日期是否正确
+            $dtm_birth = '19'.$arr_split[2].'/'.$arr_split[3].'/'.$arr_split[4];
             if (!strtotime($dtm_birth)) {
                 return false;
             } else {
                 return true;
             }
         } else {
-            //检查18位
+            // 检查18位
             $regx = "/^(\d{6})+(\d{4})+(\d{2})+(\d{2})+(\d{3})([0-9]|X)$/";
             @preg_match($regx, $id, $arr_split);
-            $dtm_birth = $arr_split[2] . '/' . $arr_split[3] . '/' . $arr_split[4];
-            if (!strtotime($dtm_birth)) //检查生日日期是否正确
-            {
+            $dtm_birth = $arr_split[2].'/'.$arr_split[3].'/'.$arr_split[4];
+            if (!strtotime($dtm_birth)) { // 检查生日日期是否正确
                 return false;
             } else {
-                //检验18位身份证的校验码是否正确。
-                //校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
+                // 检验18位身份证的校验码是否正确。
+                // 校验位按照ISO 7064:1983.MOD 11-2的规定生成，X可以认为是数字10。
                 $arr_int = [7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2];
                 $arr_ch = ['1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2'];
                 $sign = 0;
                 $ids = str_split($id);
-                for ($i = 0; $i < 17; $i++) {
-                    $b = (int)$id[$i];
+                for ($i = 0; $i < 17; ++$i) {
+                    $b = (int) $id[$i];
                     $w = $arr_int[$i];
                     $sign += $b * $w;
                 }
@@ -248,9 +242,8 @@ class Verify
     }
 
     /**
-     * 邮箱规则校验
+     * 邮箱规则校验.
      *
-     * @param $email
      * @return bool
      */
     public static function isEmail($val)
@@ -272,9 +265,8 @@ class Verify
     }
 
     /**
-     * 临时邮箱校验
+     * 临时邮箱校验.
      *
-     * @param $email
      * @return bool
      */
     protected static function filterTempMail($email)
@@ -297,7 +289,7 @@ class Verify
             '@maildu.de',
             '@sharklasers.com',
             '@www.bccto.me',
-            'bccto.me'
+            'bccto.me',
         ];
         foreach ($filters as $f) {
             if (stristr($email, $f)) {
@@ -305,14 +297,13 @@ class Verify
                 break;
             }
         }
+
         return true;
     }
 
     /**
-     * 金额
+     * 金额.
      *
-     * @param $money
-     * @param $limit
      * @return bool
      */
     public static function isMoney($money, $limit = 2)
@@ -321,18 +312,19 @@ class Verify
             return false;
         }
 
-        if (preg_match('/^(-)?[0-9]{1,10}(.[0-9]{1,' . $limit . '})?$/', $money)) {
+        if (preg_match('/^(-)?[0-9]{1,10}(.[0-9]{1,'.$limit.'})?$/', $money)) {
             return true;
         }
+
         return false;
     }
 
     /**
-     * 校验中英文名称
+     * 校验中英文名称.
      *
-     * @param $name
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
     public static function isChinese($name, $max = 40, $min = 2)
@@ -350,10 +342,10 @@ class Verify
     }
 
     /**
-     * 日期时间校验从2000年开始：格式2010-01-01
+     * 日期时间校验从2000年开始：格式2010-01-01.
      *
-     * @param $date
      * @param bool $checkNow 是否校验日期超过当前日期
+     *
      * @return bool
      */
     public static function isDate($date, $checkNow = false)
@@ -367,6 +359,7 @@ class Verify
             if ($checkNow && $date > date('Y-m-d')) {
                 return false;
             }
+
             return true;
         } else {
             return false;
@@ -374,10 +367,10 @@ class Verify
     }
 
     /**
-     * 日期时间校验从2000年开始：格式2010-01-01 11：11：11
+     * 日期时间校验从2000年开始：格式2010-01-01 11：11：11.
      *
-     * @param $date
      * @param bool $checkNow 是否校验日期超过当前日期
+     *
      * @return bool
      */
     public static function isDateTime($date, $checkNow = false)
@@ -391,6 +384,7 @@ class Verify
             if ($checkNow && $date > date('Y-m-d H:i:s')) {
                 return false;
             }
+
             return true;
         } else {
             return false;
@@ -398,9 +392,8 @@ class Verify
     }
 
     /**
-     * 校验订单号规则：字母开头(1,12)+数字或纯数字
+     * 校验订单号规则：字母开头(1,12)+数字或纯数字.
      *
-     * @param $orderNo
      * @return bool
      */
     public static function isOrderNo($orderNo)
@@ -418,21 +411,46 @@ class Verify
     }
 
     /**
-     * 用户名校验，（字符串数字开头，可包含._）
+     * 用户名校验，（字符串数字开头，可包含._）.
      *
-     * @param $val
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
-
     public static function isUserName($val, $min = 4, $max = 19)
     {
         if (!is_string($val)) {
             return false;
         }
 
-        $preg = '/[a-z0-9]{1}([a-z0-9._@]){' . $min . ',' . $max . '}$/i';
+        $preg = '/[a-z0-9]{1}([a-z0-9._@]){'.$min.','.$max.'}$/i';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static function isUserNameV2($val, $min = 5, $max = 20)
+    {
+        if (!is_string($val)) {
+            return false;
+        }
+
+        $preg = '/^([a-z0-9._@]){'.$min.','.$max.'}$/i';
+        if (preg_match($preg, $val)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+    public static function isUserNameReg($val, $min = 4, $max = 19)
+    {
+        if (!is_string($val)) {
+            return false;
+        }
+
+        $preg = '/^[a-z0-9]{1}([a-z0-9._@]){'.$min.','.$max.'}$/i';
         if (preg_match($preg, $val)) {
             return true;
         } else {
@@ -440,10 +458,10 @@ class Verify
         }
     }
 
+
     /**
-     * 校验域名
+     * 校验域名.
      *
-     * @param $domain
      * @return bool
      */
     public static function isDomain($domain)
@@ -456,9 +474,8 @@ class Verify
     }
 
     /**
-     * 校验URL
+     * 校验URL.
      *
-     * @param $val
      * @return bool
      */
     public static function isUrl($val)
@@ -478,7 +495,6 @@ class Verify
     /**
      * 是否是ip地址
      *
-     * @param $val
      * @return bool
      */
     public static function isIp($val)
@@ -498,7 +514,6 @@ class Verify
     /**
      * 固话号码
      *
-     * @param $val
      * @return bool
      */
     public static function isHardPhone($val)
@@ -516,12 +531,11 @@ class Verify
     }
 
     /**
-     * 银行卡号校验:16~21为
+     * 银行卡号校验:16~21为.
      *
-     *
-     * @param $val
      * @param bool $isCard ：是否是个人卡，
-     * @param int $min
+     * @param int  $min
+     *
      * @return bool
      */
     public static function isBankCardNo($val, $isCard = true, $min = 15)
@@ -530,11 +544,11 @@ class Verify
             return false;
         }
 
-        //银行行卡
+        // 银行行卡
         if ($isCard) {
-            $preg = '/^[1-9]{1}\d{' . $min . ',20}$/';
-        } else { //企业账户
-            $preg = '/^\d{' . $min . ',32}$/';
+            $preg = '/^[1-9]{1}\d{'.$min.',20}$/';
+        } else { // 企业账户
+            $preg = '/^\d{'.$min.',32}$/';
         }
         if (preg_match($preg, $val)) {
             return true;
@@ -543,15 +557,12 @@ class Verify
         }
     }
 
-
     /**
-     * 不包含指定字符，且在限定长度内
+     * 不包含指定字符，且在限定长度内.
      *
-     *
-     * @param $char
-     * @param $val
      * @param int $max
      * @param int $min
+     *
      * @return bool
      */
     public static function noCharInLength($char, $val, $max = 20, $min = 2)
@@ -569,11 +580,11 @@ class Verify
     }
 
     /**
-     * 中文姓名
+     * 中文姓名.
      *
-     * @param $name
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
     public static function isChineseName($name, $max = 40, $min = 2)
@@ -590,11 +601,11 @@ class Verify
     }
 
     /**
-     * 中文公司名称
+     * 中文公司名称.
      *
-     * @param $name
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
     public static function isChineseCompany($name, $max = 40, $min = 2)
@@ -611,11 +622,11 @@ class Verify
     }
 
     /**
-     * 校验中英文名称
+     * 校验中英文名称.
      *
-     * @param $name
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
     public static function isAddress($name, $max = 40, $min = 2)
@@ -632,12 +643,11 @@ class Verify
     }
 
     /**
-     * 校验中英文名称
+     * 校验中英文名称.
      *
-     *
-     * @param $name
      * @param int $min
      * @param int $max
+     *
      * @return bool
      */
     public static function isTitle($name, $max = 40, $min = 2)
@@ -652,5 +662,45 @@ class Verify
         } else {
             return false;
         }
+    }
+
+    /**
+     * w.
+     */
+    public static function isValidateChinese($type, $val, $min = 40, $max = 128)
+    {
+        if (!is_string($val)) {
+            return false;
+        }
+
+        $validate = false;
+        $pregStr = '';
+        switch ($type) {
+            case 'name':
+                $pregStr = "/^[0-9A-Za-z\x{4e00}-\x{9fa5}·#]{{$min},{$max}}$/u";
+                break;
+            case 'company':
+                $pregStr = "/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\(\)（）#\s]{{$min},{$max}}$/u";
+                break;
+            case 'address':
+                $pregStr = "/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\(\)\[\]（）【】\s#]{{$min},{$max}}$/u";
+                break;
+            case 'remark':
+                $pregStr = "/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\/_\(\)\[\]（）\.:,!。、，：【】！？\s\?#]{{$min},{$max}}$/u";
+                break;
+            case 'title':
+                $pregStr = "/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\/_\(\)\[\]（）:,!。、，：【】！？\s\?#]{{$min},{$max}}$/u";
+                break;
+            case 'noChar':
+            default:
+                $pregStr = "/^[0-9A-Za-z&\x{4e00}-\x{9fa5}\-\/_\(\)\[\]（）:,!。、，：【】！？\s\?#]{{$min},{$max}}$/u";
+
+                break;
+        }
+        if ('' != $pregStr) {
+            $validate = preg_match($pregStr, $val) ? true : false;
+        }
+
+        return $validate;
     }
 }
